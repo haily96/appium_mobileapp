@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite1" verbose="1" >
+    <test name="Test01" >
+        <classes>
+            <class name="testHooks.SignUp_01" />
+            <class name="testHooks.Login_01" />
+        </classes>
+    </test>
+</suite>
