@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import db.DBConnection;
+import ultis.Screenshot;
 
 public class Login {
 //    @BeforeMethod
@@ -86,6 +87,7 @@ public class Login {
             while (resultSet.next())
             {
                 int tc_id = resultSet.getInt("id");
+                String TCs_description = resultSet.getString("[TC description]");
                 String email = resultSet.getString("email");
                 String password = resultSet.getString("password");
 //                String expected_result = resultSet.getString("expected result");
@@ -93,39 +95,31 @@ public class Login {
                 passwordEle.sendKeys(password);
                 driver.findElement(MobileBy.AccessibilityId("loginBtn")).click();
 
-
-
                 //So sánh kết quả
 //                System.out.println("tc_id: " + tc_id);
                 try {
                     MobileElement alert_faild = driver.findElement(MobileBy.xpath("//*[@text='Please provide correct credentials']"));
                     Assert.assertEquals(alert_faild.getText(), "Please provide correct credentials");
                     System.out.println("tc_id: " + tc_id + " FAILED");
-                    //0.1 Ghi FAILED vao cot actual_result
-//                    resultSet.updateString("actual_result", "FAILED");
-//                    resultSet.updateString("tester", "Hai Ly");
-//                    resultSet.updateRow(); // luu nhung thay đổi trên vào csdl
 
-                    PreparedStatement statement = connection.prepareStatement("UPDATE Login SET actual_result = ?, tester = ? WHERE id = ?");
+                    //0.1 Ghi FAILED vao cot actual_result
+                    PreparedStatement statement = connection.prepareStatement("UPDATE Login SET actual_result = ?, tester = ?, datetime = ? WHERE id = ?");
                     // Thiết lập giá trị cho các tham số trong câu truy vấn
                     statement.setString(1, "FAILED"); // thiết lập giá trị cho tham số
-                    statement.setString(2, "Hải Lý");
+                    statement.setString(2, "Đặng Lý");
                     statement.setString(3, dateCurrent());
                     statement.setInt(4, tc_id);
                     statement.executeUpdate();
                 } catch (Exception e) {
                     //TODO: handle exception
-//                    resultSet.updateString("actual_result", "PASS");
-//                    resultSet.updateString("tester", "Hai Ly");
-//                    resultSet.updateRow(); // luu nhung thay đổi trên vào csdl
                     System.out.println("tc_id: " + tc_id + " PASS");
 //                    e.printStackTrace();
                     PreparedStatement statement = connection.prepareStatement("UPDATE Login SET actual_result = ?, tester = ?, datetime = ?, file_log = ? WHERE id = ?");
                     // Thiết lập giá trị cho các tham số trong câu truy vấn
                     statement.setString(1, "PASS"); // thiết lập giá trị cho tham số
-                    statement.setString(2, "Hải Lý");
+                    statement.setString(2, "Đặng Lý");
                     statement.setString(3, dateCurrent());
-                    statement.setString(4, takeScreenshot());
+                    statement.setString(4, Screenshot.takeScreenshot());
                     statement.setInt(5, tc_id);
                     statement.executeUpdate();
                 }
@@ -150,26 +144,8 @@ public class Login {
 
     //Update thời gian kiểm thử và lưu hình ảnh lỗi vào db
     public String dateCurrent(){
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);
-    }
-    public String takeScreenshot(){
-        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver();
-        String picture = "";
-        //Lấy datetime để làm tên file ảnh
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        String destFile = dateFormat.format(new Date()) + ".png";
-        String destFile2 = destFile.replaceAll("[:/]", "_");
-
-        //Capture Screenshot. Đối tượng screenFile lưu ảnh chụp màn hình
-        File formScreen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        picture = System.getProperty("user.dir") + "/screenshot/" + destFile2;
-        try {
-            FileUtils.copyFile(formScreen, new File(picture));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return picture;
     }
 }
