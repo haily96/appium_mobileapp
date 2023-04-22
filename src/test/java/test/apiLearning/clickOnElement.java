@@ -9,7 +9,7 @@ import ultis.AppiumDriverEx;
 
 public class clickOnElement {
     public static void main(String[] args) {
-        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver();
+        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver("emulator-5554");
         //Login
         MobileElement loginELe = driver.findElement(MobileBy.AccessibilityId("userIcon"));
         loginELe.click();

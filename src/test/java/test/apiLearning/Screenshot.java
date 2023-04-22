@@ -11,7 +11,7 @@ import java.io.File;
 
 public class Screenshot {
     public static void main(String[] args) throws InterruptedException {
-        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver();
+        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver("emulator-5554");
         Thread.sleep(1000);
         File formScreen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         String formScreenFilePath = System.getProperty("user.dir" + "/screenshot/" + "screenshot01.png");

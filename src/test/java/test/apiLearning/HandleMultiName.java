@@ -9,7 +9,7 @@ import java.util.List;
 
 public class HandleMultiName {
     public static void main(String[] args) {
-        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver();
+        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver("emulator-5554");
 
         //1. Click login screen
         MobileElement loginLabel = driver.findElement(MobileBy.AccessibilityId("userIcon"));

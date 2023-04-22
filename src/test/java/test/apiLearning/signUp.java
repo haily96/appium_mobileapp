@@ -14,7 +14,7 @@ import java.util.Date;
 
 public class signUp {
     public static void main(String[] args) throws InterruptedException {
-        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver();
+        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver("emulator-5554");
         MobileElement loginELe = driver.findElement(MobileBy.AccessibilityId("userIcon"));
         loginELe.click();
         //Sign up
@@ -29,13 +29,11 @@ public class signUp {
         emailEle.sendKeys("ly@gmail.com");
         nameEle.sendKeys("Hai Ly");
         phoneEle.sendKeys("0123465789");
-        Thread.sleep(3000);
-
         passwordEle.sendKeys("123456");
 
         driver.findElement(MobileBy.AccessibilityId("registerBtn")).click();
 
-        Thread.sleep(5000);
+        Thread.sleep(3000);
 
         //------ Screenshot tên file tự đặt
 //        File formScreen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -50,7 +48,7 @@ public class signUp {
         File screenFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         //Set time thành tên file screenshot
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        String destFile = dateFormat.format(new Date()) + ".png";
+        String destFile = "signUp"+dateFormat.format(new Date()) + ".png";
         //Copy file sang folder
         String picture = "D:\\kltn_11\\screenshot" + "/" + destFile;
         try {

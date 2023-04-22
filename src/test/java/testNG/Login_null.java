@@ -22,41 +22,9 @@ import java.util.List;
 import db.DBConnection;
 import ultis.Screenshot;
 
-public class Login {
-//    @BeforeMethod
-//    public void signUpSuccessful(){
-//        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver();
-//        MobileElement loginELe = driver.findElement(MobileBy.AccessibilityId("userIcon"));
-//        loginELe.click();
-//        //Sign up
-//        MobileElement registerAccountEle = driver.findElement(MobileBy.AccessibilityId("registerAccountBtn"));
-//        registerAccountEle.click();
-//
-//        //Điền các thông tin đăng ký
-//        MobileElement emailEle = driver.findElement(MobileBy.AccessibilityId("email"));
-//        MobileElement nameEle = driver.findElement(MobileBy.AccessibilityId("name"));;
-//        MobileElement phoneEle = driver.findElement(MobileBy.AccessibilityId("phone"));
-//        MobileElement passwordEle = driver.findElement(MobileBy.AccessibilityId("password"));
-//        emailEle.sendKeys("ly@gmail.com");
-//        nameEle.sendKeys("Hai Ly");
-//        phoneEle.sendKeys("0123465789");
-//        passwordEle.sendKeys("123456");
-//
-//        driver.findElement(MobileBy.AccessibilityId("registerBtn")).click();
-//
-//
-//        File formScreen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-//        String formScreenFilePath = System.getProperty("user.dir") + "/screenshot/" + "screenshot01.png";
-//        try {
-//            FileUtils.copyFile(formScreen, new File(formScreenFilePath));
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        System.out.println("Sẽ đăng ký tài khoản trước khi đăng nhập ở bước này");
-//
-//    }
+public class Login_null {
     @Test
-    public void loginSuccessful() throws InterruptedException {
+    public void loginSuccessful() {
 
         Connection connection = null;
         Statement st = null;
@@ -67,7 +35,7 @@ public class Login {
             //1. Tạo kết nối DB
             connection = DBConnection.getConnectionDB();
             //2. Tạo đối tượng statement, resultSet
-            String sql = "SELECT * FROM Login";
+            String sql = "SELECT * FROM Login_null";
             st = connection.createStatement();
             resultSet = st.executeQuery(sql);
 
@@ -87,10 +55,9 @@ public class Login {
             while (resultSet.next())
             {
                 int tc_id = resultSet.getInt("id");
-                String TCs_description = resultSet.getString("TCs_description");
-                String email = resultSet.getString("email");
+                String TCs_description = resultSet.getString("TCs_decripton");
+                String email = resultSet.getString("username");
                 String password = resultSet.getString("password");
-//                String expected_result = resultSet.getString("expected result");
 
                 if (email != null) {
                     usernameEle.sendKeys(email);
@@ -104,26 +71,25 @@ public class Login {
                 }
 
                 driver.findElement(MobileBy.AccessibilityId("loginBtn")).click();
-                Thread.sleep(2000);
-                //So sánh kết quả
-//                System.out.println("tc_id: " + tc_id);
-                try {
-                    MobileElement alertFailedEl1 = null;
 
+                //So sánh kết quả
+                try {
+                    System.out.println(usernameEle.getText().equals("Enter Email") || passwordEle.getText().equals("Enter Password"));
+                    MobileElement alertFailedEl1 = null;
                     if (!usernameEle.getText().equals("Enter Email") && !passwordEle.getText().equals("Enter Password")){
+                        System.out.println("nếu có dữ liệu nhập vào mới run câu hàm if trong đây");
                         alertFailedEl1 = driver.findElement(MobileBy.xpath("//*[@text='Please provide correct credentials']"));
                     }
-                    String errorMessage1= "Please provide correct credentials";
-//                    Assert.assertEquals(alert_faild_1.getText(), "Please provide correct credentials");
-
-                    if (alertFailedEl1.isDisplayed() || usernameEle.getText().equals("Enter Email") || passwordEle.getText().equals("Enter Password")){
+                    if (usernameEle.getText().equals("Enter Email") || passwordEle.getText().equals("Enter Password")) {
                         System.out.println("tc_id_" + tc_id + " | "+ TCs_description + " | FAILED");
-                    } else {
-                        throw new Exception("Chuyển sang catch");
+                    } else if (alertFailedEl1.isDisplayed()){
+                        System.out.println("tc_id_" + tc_id + " | "+ TCs_description + " | FAILED");
+                    } else { // Nếu 2 đk trên sai thì vào đây
+                        throw new Exception("Lỗi giả");
                     }
 
                     //0.1 Ghi FAILED vao cot actual_result
-                    PreparedStatement statement = connection.prepareStatement("UPDATE Login SET actual_result = ?, tester = ?, datetime = ? WHERE id = ?");
+                    PreparedStatement statement = connection.prepareStatement("UPDATE Login_null SET actual_result = ?, tester = ?, datetime = ? WHERE id = ?");
                     // Thiết lập giá trị cho các tham số trong câu truy vấn
                     statement.setString(1, "FAILED"); // thiết lập giá trị cho tham số
                     statement.setString(2, "Đặng Lý");
@@ -132,15 +98,19 @@ public class Login {
                     statement.executeUpdate();
                 } catch (Exception e) {
                     //TODO: handle exception
+//                    MobileElement toastMessage=null;
+//                    if (!usernameEle.getText().isEmpty() & !passwordEle.getText().isEmpty()){
+//                        toastMessage = driver.findElement(MobileBy.xpath("//*[@text='Please provide correct credentials']"));
+//                    }
+//                    toastMessage.isDisplayed();
                     System.out.println("tc_id_" + tc_id + " | "+ TCs_description + " | PASS");
 //                    e.printStackTrace();
-                    PreparedStatement statement = connection.prepareStatement("UPDATE Login SET actual_result = ?, tester = ?, datetime = ?, file_log = ? WHERE id = ?");
+                    PreparedStatement statement = connection.prepareStatement("UPDATE Login_null SET actual_result = ?, tester = ?, datetime = ? WHERE id = ?");
                     // Thiết lập giá trị cho các tham số trong câu truy vấn
                     statement.setString(1, "PASS"); // thiết lập giá trị cho tham số
                     statement.setString(2, "Đặng Lý");
                     statement.setString(3, dateCurrent());
-                    statement.setString(4, Screenshot.takeScreenshot());
-                    statement.setInt(5, tc_id);
+                    statement.setInt(4, tc_id);
                     statement.executeUpdate();
                 }
                 // Đợi 5s cho mỗi lần nhập username-password
@@ -169,3 +139,4 @@ public class Login {
         return dateFormat.format(date);
     }
 }
+

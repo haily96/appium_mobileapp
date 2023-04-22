@@ -9,12 +9,12 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class AppiumDriverEx {
-    public static AppiumDriver<MobileElement> getAppiumDriver(){
+    public static AppiumDriver<MobileElement> getAppiumDriver(String uuid){
         AppiumDriver<MobileElement> driver = null;
         DesiredCapabilities cap = new DesiredCapabilities();
         cap.setCapability("automationName", "uiautomator2");
         cap.setCapability("platformName", "android");
-        cap.setCapability("uuid", "emulator-5554");
+        cap.setCapability("uuid", uuid);
         cap.setCapability("appPackage", "com.tuhuynh.sdetproecommerce");
         cap.setCapability("appActivity", "host.exp.exponent.MainActivity");
 

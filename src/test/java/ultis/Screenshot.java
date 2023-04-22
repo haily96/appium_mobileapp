@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class Screenshot {
     public static String takeScreenshot (){
-        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver();
+        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver("emulator-5554");
         String picture = "";
         //Lấy datetime để làm tên file ảnh
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
