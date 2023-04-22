@@ -26,7 +26,7 @@ public class DBConnection {
         try {
             if (connection != null) {
                 DatabaseMetaData databaseMetaData = connection.getMetaData();
-                System.out.println("Công cụ: " + databaseMetaData.getDatabaseProductName());
+                System.out.println("Tool: " + databaseMetaData.getDatabaseProductName());
             }
         } catch (SQLException e){
             System.out.println("close connection");

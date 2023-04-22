@@ -1,4 +1,4 @@
-package testNG;
+package db;
 
 import db.DBConnection;
 
@@ -13,7 +13,5 @@ public class TestConnectDB {
         DBConnection.printInfo(connection);
         //Khi ko tìm thấy connection => close
         DBConnection.closeConnection(connection);
-        System.out.println(connection);
-
     }
 }
