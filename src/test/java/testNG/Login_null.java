@@ -35,8 +35,8 @@ public class Login_null {
             //1. Tạo kết nối DB
             connection = DBConnection.getConnectionDB();
             //2. Tạo đối tượng statement, resultSet
-            String sql = "SELECT * FROM Login_null";
             st = connection.createStatement();
+            String sql = "SELECT * FROM Login_null";
             resultSet = st.executeQuery(sql);
 
             //---------------App Mobile ------------
