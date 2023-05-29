@@ -6,6 +6,7 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import org.testng.annotations.Test;
 import ultis.AppiumDriverEx;
+import io.qameta.allure.*;
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -14,6 +15,8 @@ import java.util.Date;
 
 public class SignUp {
     @Test
+    @Description("Allure: Kiểm tra chức năng Đăng nhập")
+    @Severity(SeverityLevel.CRITICAL)
     public void TestSignUp() throws InterruptedException {
         Connection connection = null;
         Statement st = null;
@@ -114,6 +117,10 @@ public class SignUp {
                 connection.close();
             } catch (Exception e){}
         }
+
+        //--------------- ALLURE-------------
+//        Allure.addAttachment("Screenshot", "image/png", captureScreenshot());
+        Allure.step("Login successful");
     }
     public String dateCurrent(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

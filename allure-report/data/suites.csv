@@ -1,0 +1,2 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Mon May 29 17:08:34 ICT 2023","Mon May 29 17:09:54 ICT 2023","80185","Default Suite","kltn_11","testNG.SignUp","testNG.SignUp","TestSignUp","TestSignUp","Allure: Kiểm tra chức năng Đăng nhập"

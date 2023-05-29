@@ -50,7 +50,7 @@ public class EndToEndApp {
         MobileElement emailInputEle = driver.findElement(MobileBy.AccessibilityId("emailInput"));
         MobileElement passwordInputEle = driver.findElement(MobileBy.AccessibilityId("passwordInput"));
         MobileElement loginBtnEle = driver.findElement(MobileBy.AccessibilityId("loginBtn"));
-        emailInputEle.sendKeys("haily@gmail.com");
+            emailInputEle.sendKeys("haily@gmail.com");
         passwordInputEle.sendKeys("12345678");
         // Sau khi click btn Login => chờ 10s rồi mới click sang Trang chủ
         automationInstance.doActionAndWait(() ->{
