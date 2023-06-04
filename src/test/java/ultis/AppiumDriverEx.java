@@ -21,7 +21,7 @@ public class AppiumDriverEx {
         try {
             URL url = new URL("http://localhost:4723/wd/hub");
             driver = new AndroidDriver<>(url, cap);
-            driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(18, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Lỗi ko thể tạo Appium session! Haizzz!!!!!!!!!");
