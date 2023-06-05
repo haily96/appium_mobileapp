@@ -43,8 +43,8 @@ public class Search {
             Object[] rowData = new Object[4];
             rowData[0] = resultSet.getInt("id");
             rowData[1] = resultSet.getString("keyword");
-            rowData[2] = resultSet.getString("expected_result");
-            rowData[3] = resultSet.getString("expected_result_2");
+            rowData[2] = resultSet.getString("descriptionTestcase");
+            rowData[3] = resultSet.getInt("codeTCs");
 
             // Thêm 1 hàng vào List
             searchDataList.add(rowData);
@@ -71,12 +71,13 @@ public class Search {
     }
 
     @Test(dataProvider = "SearchDataProvider")
-    public void searchTest (int tc_id, String keyword, String expectedResult, String expectedResult2) throws SQLException {
+    public void searchTest (int tc_id, String keyword, String descriptionTestcase, int codeTCs) throws SQLException, InterruptedException {
 
         MobileElement searchInputEle = driver.findElement(MobileBy.AccessibilityId("searchInput"));
         searchInputEle.clear();
         searchInputEle.click();
         searchInputEle.sendKeys(keyword);
+        Thread.sleep(2000);
 
 //        boolean isPassed;
 //        List<MobileElement> results = driver.findElements(MobileBy.xpath("(//android.view.ViewGroup[@content-desc=\"matchedItem\"])"));
@@ -94,7 +95,7 @@ public class Search {
 //        }
 
         // So sánh kết quả
-        boolean isPassed = false;
+
 //        for (int i = 0; i < data.length; i++) {
 //            if (i >= 0 && i < 6) {
 //                MobileElement noResult = driver.findElement(MobileBy.AccessibilityId("noMatchedProductMsg"));
@@ -107,26 +108,35 @@ public class Search {
 //            }
 //        }
 
-        if(expectedResult2.equals("PASS")){
-            MobileElement noResult = driver.findElement(MobileBy.AccessibilityId("noMatchedProductMsg"));
-            System.out.println(tc_id + " Kiểm tra xuất hiện noResult" + noResult);
-            isPassed = (noResult != null);
-            System.out.println("isPassed: " + isPassed);
-        } else if (expectedResult2.equals("FAILED")){
-            List<MobileElement> yesResult = driver.findElements(MobileBy.xpath("(//android.view.ViewGroup[@content-desc=\"matchedItem\"])"));
-            System.out.println("Kiểm tra xuất hiện noResult" + yesResult);
-            isPassed = (yesResult != null);
-            System.out.println(isPassed);
-        }
+        System.out.println("Running testcase " + descriptionTestcase);
+        boolean isPassed = false;
 
-        //0.1 Ghi FAILED vao cot actual_result
-        PreparedStatement statement = connection.prepareStatement("UPDATE Search SET actual_result = ?, tester = ?, datetime = ? WHERE id = ?");
-        // Thiết lập giá trị cho các tham số trong câu truy vấn
-        statement.setString(1, isPassed ? "PASS" : "FAILED"); // thiết lập giá trị cho tham số
-        statement.setString(2, "Đặng Lý");
-        statement.setString(3, dateCurrent());
-        statement.setInt(4, tc_id);
-        statement.executeUpdate();
+        if (codeTCs == 0) {
+            MobileElement noResult = driver.findElement(MobileBy.AccessibilityId("noMatchedProductMsg"));
+            System.out.println(" Kiểm tra xuất hiện noResult" + noResult.isDisplayed());
+            isPassed = (noResult != null);
+            System.out.println(isPassed);
+            if (!isPassed) {
+                Assert.fail("Không xuất hiện gì cả. Testcase failed");
+            }
+        } else if (codeTCs == 1) {
+            List<MobileElement> yesResult = driver.findElements(MobileBy.xpath("(//android.view.ViewGroup[@content-desc=\"matchedItem\"])"));
+            System.out.println("Kiểm tra xuất hiện yesResult" + yesResult.isEmpty());
+            isPassed = (!yesResult.isEmpty());
+            System.out.println(isPassed);
+            if (!isPassed) {
+                Assert.fail("Không trả về kết quả như mong đợi. Testcase failed");
+            }
+
+            //0.1 Ghi FAILED vao cot actual_result
+            PreparedStatement statement = connection.prepareStatement("UPDATE Search SET actual_result = ?, tester = ?, datetime = ? WHERE id = ?");
+            // Thiết lập giá trị cho các tham số trong câu truy vấn
+            statement.setString(1, isPassed ? "PASS" : "FAILED"); // thiết lập giá trị cho tham số
+            statement.setString(2, "Đặng Lý");
+            statement.setString(3, dateCurrent());
+            statement.setInt(4, tc_id);
+            statement.executeUpdate();
+        }
     }
     public String dateCurrent(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
