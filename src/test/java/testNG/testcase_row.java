@@ -15,29 +15,29 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class testcase_row {
-    public static void main(String[] args) throws InterruptedException {
-        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver("emulator-5554");
-
-        MobileElement searchInputEle = driver.findElement(MobileBy.AccessibilityId("searchInput"));
-        searchInputEle.clear();
-        searchInputEle.click();
-        searchInputEle.sendKeys("     ");
-        // Kiểm tra kết quả tìm kiếm
-        MobileElement noResult = driver.findElement(MobileBy.AccessibilityId("noMatchedProductMsg"));
-        if (noResult != null) {
-            System.out.println(noResult.getText());
-        }
-        searchInputEle.clear();
-        searchInputEle.sendKeys("code");
-        Thread.sleep(2000);
-        MobileElement yesResult = driver.findElement(MobileBy.xpath("(//android.view.ViewGroup[@content-desc=\"matchedItem\"])"));
-        System.out.println(yesResult);
-        if (yesResult != null) {
-            System.out.println("Tìm kiếm có trả về kết quả");
-        } else {
-            System.out.println("Failed");
-        }
-    }
+//    public static void main(String[] args) throws InterruptedException {
+//        AppiumDriver<MobileElement> driver = AppiumDriverEx.getAppiumDriver("emulator-5554");
+//
+//        MobileElement searchInputEle = driver.findElement(MobileBy.AccessibilityId("searchInput"));
+//        searchInputEle.clear();
+//        searchInputEle.click();
+//        searchInputEle.sendKeys("     ");
+//        // Kiểm tra kết quả tìm kiếm
+//        MobileElement noResult = driver.findElement(MobileBy.AccessibilityId("noMatchedProductMsg"));
+//        if (noResult != null) {
+//            System.out.println(noResult.getText());
+//        }
+//        searchInputEle.clear();
+//        searchInputEle.sendKeys("code");
+//        Thread.sleep(2000);
+//        MobileElement yesResult = driver.findElement(MobileBy.xpath("(//android.view.ViewGroup[@content-desc=\"matchedItem\"])"));
+//        System.out.println(yesResult);
+//        if (yesResult != null) {
+//            System.out.println("Tìm kiếm có trả về kết quả");
+//        } else {
+//            System.out.println("Failed");
+//        }
+//    }
 
     private Object[][] data;
     private AppiumDriver<MobileElement> driver;

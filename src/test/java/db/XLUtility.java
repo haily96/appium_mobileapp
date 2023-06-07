@@ -70,6 +70,7 @@ public class XLUtility {
         }
         catch(Exception e)
         {
+            System.out.println(e.getMessage());
             data="";
         }
         workbook.close();

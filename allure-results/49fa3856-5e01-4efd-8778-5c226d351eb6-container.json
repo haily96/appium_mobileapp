@@ -1,0 +1,1 @@
+{"uuid":"49fa3856-5e01-4efd-8778-5c226d351eb6","name":"testNG.Search_Excel","children":["46740f0b-8650-4cb2-a0d9-fac7ce02561b"],"befores":[{"name":"setUp","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1686109200323,"stop":1686109205846}],"afters":[],"start":1686109200305,"stop":1686109205934}

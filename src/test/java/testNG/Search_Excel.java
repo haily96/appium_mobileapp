@@ -21,6 +21,11 @@ public class Search_Excel {
     private Object[][] data;
     private AppiumDriver<MobileElement> driver;
 
+    @BeforeClass
+    public void setUp() {
+
+        driver = AppiumDriverEx.getAppiumDriver("emulator-5554");
+    }
     @DataProvider(name = "SearchDataProvider")
     public Object[][] searchData() {
 //        data = new Object[][]{
@@ -38,15 +43,17 @@ public class Search_Excel {
 //                {"CODe", "Tìm kiếm không phân biệt chữ hoa chữ thường", 1}};
 
         // ---Get data from excel---
+        System.out.println("run vào @DataProvider");
         try {
-            String path = ".\\db\\Tìm kiếm.xlsx";
+//            String path = XLUtility.class.getClassLoader().getResource("Search.xlsx").getPath();
+            String path = "D:\\KLTN\\kltn\\src\\test\\java\\db\\Search.xlsx";
             XLUtility xlutil = new XLUtility(path);
 
             int totalrows = xlutil.getRowCount("Sheet1");
             int totalcols = xlutil.getCellCount("Sheet1",1);
+            data = new Object[totalrows][totalcols];
 
-            data =new Object[totalrows][totalcols];
-
+            System.out.println("số hàng: " + totalrows + "\nsố cột: " +  totalcols);
 
             for(int i=1;i<=totalrows;i++) //1
             {
@@ -56,22 +63,20 @@ public class Search_Excel {
                 }
 
             }
+            System.out.println("Dữ liệu hàng 2x2: " +data[2][2]);
+
+            return data;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Lỗi lấy file excel",e);
         }
-
-        return data;
     }
 
-    @BeforeClass
-    public void setUp() {
-
-        driver = AppiumDriverEx.getAppiumDriver("emulator-5554");
-    }
 
     @Test(dataProvider = "SearchDataProvider")
-    public void searchTest(String keyword, String descriptionTestcase, int codeTCs) throws InterruptedException {
+    public void searchTest(String keyword, String descriptionTestcase, String codeTCs) throws InterruptedException {
+        System.out.println("Có chạy vào searchTest");
         MobileElement searchInputEle = driver.findElement(MobileBy.AccessibilityId("searchInput"));
+        System.out.println("Có lấy được searchInput"+ searchInputEle.isDisplayed());
         searchInputEle.clear();
         searchInputEle.click();
         searchInputEle.sendKeys(keyword);
@@ -80,7 +85,7 @@ public class Search_Excel {
         System.out.println("Running testcase " + descriptionTestcase);
         boolean isPassed = false;
 
-        if (codeTCs == 0) {
+        if (codeTCs.equals("0")) {
             MobileElement noResult = driver.findElement(MobileBy.AccessibilityId("noMatchedProductMsg"));
             System.out.println(" Kiểm tra xuất hiện noResult" + noResult.isDisplayed());
             isPassed = (noResult != null);
@@ -88,7 +93,7 @@ public class Search_Excel {
             if (!isPassed) {
                 Assert.fail("Không xuất hiện gì cả. Testcase failed");
             }
-        } else if (codeTCs == 1) {
+        } else if (codeTCs.equals("1")) {
             List<MobileElement> yesResult = driver.findElements(MobileBy.xpath("(//android.view.ViewGroup[@content-desc=\"matchedItem\"])"));
             System.out.println("Kiểm tra xuất hiện yesResult" + yesResult.isEmpty());
             isPassed = (!yesResult.isEmpty());
