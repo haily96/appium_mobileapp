@@ -16,12 +16,27 @@ import java.security.NoSuchAlgorithmException;
 
 import java.util.List;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+
 public class Search_Excel {
 
     private Object[][] data;
     private AppiumDriver<MobileElement> driver;
 
-    @BeforeClass
+      @BeforeClass
     public void setUp() {
 
         driver = AppiumDriverEx.getAppiumDriver("emulator-5554");
@@ -45,7 +60,6 @@ public class Search_Excel {
         // ---Get data from excel---
         System.out.println("run vào @DataProvider");
         try {
-//            String path = XLUtility.class.getClassLoader().getResource("Search.xlsx").getPath();
             String path = "D:\\KLTN\\kltn\\src\\test\\java\\db\\Search.xlsx";
             XLUtility xlutil = new XLUtility(path);
 
@@ -73,7 +87,7 @@ public class Search_Excel {
 
 
     @Test(dataProvider = "SearchDataProvider")
-    public void searchTest(String keyword, String descriptionTestcase, String codeTCs) throws InterruptedException {
+    public void searchTest(String descriptionTestcase, String keyword, String codeTCs) throws InterruptedException {
         System.out.println("Có chạy vào searchTest");
         MobileElement searchInputEle = driver.findElement(MobileBy.AccessibilityId("searchInput"));
         System.out.println("Có lấy được searchInput"+ searchInputEle.isDisplayed());
